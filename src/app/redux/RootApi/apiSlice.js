@@ -12,7 +12,5 @@ export const apiSlice = createApi({
   reducerPath: "apiSlice",
   baseQuery: customBaseQuery,
   endpoints: () => ({}),
-  tagTypes: ["course"],
-  tagTypes: ["module"],
-  tagTypes: ["lecture"],
+  tagTypes: ["course", "module", "lecture"],
 });

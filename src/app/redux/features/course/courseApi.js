@@ -27,10 +27,10 @@ export const courseApi = apiSlice.injectEndpoints({
     }),
 
     editCourse: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/course/edit-course/${id}`,
-        method: "PUT",
-        body: data,
+      query: ({ id, body }) => ({
+        url: `/course/update-course/${id}`,
+        method: "PATCH",
+        body: body,
       }),
       invalidatesTags: ["course"],
     }),
