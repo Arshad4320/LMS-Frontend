@@ -28,7 +28,7 @@ export const moduleApi = apiSlice.injectEndpoints({
     }),
     getSingleModule: builder.query({
       query: (id) => ({
-        url: `/module/${id}`,
+        url: `/module/single-module/${id}`,
         method: "GET",
       }),
       providesTags: ["module"],
@@ -36,7 +36,7 @@ export const moduleApi = apiSlice.injectEndpoints({
 
     editModule: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/module/edit-module/${id}`,
+        url: `/module/update-module/${id}`,
         method: "PATCH",
         body: data,
       }),
@@ -59,5 +59,5 @@ export const {
   useEditModuleMutation,
   useCreateModuleMutation,
   useGetModulesQuery,
-  useGetSingleModuleQuery
+  useGetSingleModuleQuery,
 } = moduleApi;

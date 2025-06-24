@@ -18,10 +18,10 @@ const navLinks = [
     label: "Modules",
     children: [
       {
-        href: "/dashboard/modules/modules-list/ ",
+        href: "/dashboard/modules ",
         label: "Module List",
       },
-      { href: "/dashboard/modules-list/add-module", label: "Add Module" },
+      { href: "/dashboard/add-module", label: "Add Module" },
     ],
   },
   {

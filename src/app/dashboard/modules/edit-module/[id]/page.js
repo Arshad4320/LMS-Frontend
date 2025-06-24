@@ -10,9 +10,10 @@ import {
 } from "@/app/redux/features/module/moduleApi";
 
 const EditModulePage = () => {
-  const { id } = useParams();
+  const params = useParams();
   const router = useRouter();
 
+  const id = typeof params.id === "string" ? params.id : "";
   const { data: moduleData, isLoading } = useGetSingleModuleQuery(id);
   const [updateModule, { isLoading: updating }] = useEditModuleMutation();
 
@@ -22,7 +23,7 @@ const EditModulePage = () => {
   useEffect(() => {
     if (moduleData?.data) {
       setTitle(moduleData.data.title);
-      setModuleNumber(moduleData.data.moduleNumber);
+      setModuleNumber(String(moduleData.data.moduleNumber));
     }
   }, [moduleData]);
 
@@ -32,7 +33,7 @@ const EditModulePage = () => {
     try {
       const updated = await updateModule({
         id,
-        payload: {
+        data: {
           title,
           moduleNumber: Number(moduleNumber),
         },
@@ -53,7 +54,7 @@ const EditModulePage = () => {
   if (isLoading) return <p className="text-center">Loading module...</p>;
 
   return (
-    <div className=" mx-auto bg-white p-6 rounded-md shadow-md mt-6">
+    <div className="max-w-xl mx-auto bg-white p-6 rounded-md shadow-md mt-6">
       <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
         ✏️ Edit Module
       </h2>
