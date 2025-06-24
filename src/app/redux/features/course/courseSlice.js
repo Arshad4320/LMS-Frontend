@@ -1,21 +1,19 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// redux/features/course/courseSlice.js
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  courses: [],
+  selectedCourseId: null,
 };
 
 const courseSlice = createSlice({
   name: "course",
   initialState,
   reducers: {
-    addCourse: (state, action) => {
-      state.courses.push(action.payload);
-    },
-    removeCourse: (state, action) => {
-      state.courses = state.courses.filter((c) => c.id !== action.payload);
+    setSelectedCourseId: (state, action) => {
+      state.selectedCourseId = action.payload;
     },
   },
 });
 
-export const { addCourse, removeCourse } = courseSlice.actions;
+export const { setSelectedCourseId } = courseSlice.actions;
 export default courseSlice.reducer;

@@ -14,7 +14,23 @@ const navLinks = [
       { href: "/dashboard/courses/add-course", label: "Add Course" },
     ],
   },
-  { href: "/dashboard/settings", label: "Settings" },
+  {
+    label: "Modules",
+    children: [
+      {
+        href: "/dashboard/modules/modules-list/ ",
+        label: "Module List",
+      },
+      { href: "/dashboard/modules-list/add-module", label: "Add Module" },
+    ],
+  },
+  {
+    label: "Lectures",
+    children: [
+      { href: "/dashboard/lectures", label: "Lecture List" },
+      { href: "/dashboard/lectures/add-lecture", label: "Add Lecture" },
+    ],
+  },
 ];
 
 const DashboardLayout = ({ children }) => {
@@ -36,7 +52,7 @@ const DashboardLayout = ({ children }) => {
         } md:left-0 md:z-0 top-0`}
       >
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold"> Admin</h2>
+          <h2 className="text-2xl font-bold">Admin</h2>
           <button onClick={toggleSidebar} className="md:hidden text-white z-50">
             <X size={24} />
           </button>
@@ -49,7 +65,9 @@ const DashboardLayout = ({ children }) => {
                 <button
                   onClick={() => handleDropdown(link.label)}
                   className={`w-full flex justify-between items-center px-4 py-2 rounded-md font-medium text-left transition-all duration-200 ${
-                    pathname?.startsWith("/dashboard/courses")
+                    pathname?.startsWith(
+                      link.children[0].href.split("/").slice(0, 3).join("/")
+                    )
                       ? "bg-white/10 border-l-4 border-white"
                       : "hover:bg-white/10"
                   }`}
@@ -102,6 +120,7 @@ const DashboardLayout = ({ children }) => {
         </nav>
       </aside>
 
+      {/* Mobile Backdrop */}
       {mobileOpen && (
         <div
           onClick={toggleSidebar}

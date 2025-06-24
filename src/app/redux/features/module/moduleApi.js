@@ -12,9 +12,24 @@ export const moduleApi = apiSlice.injectEndpoints({
       invalidatesTags: ["module"],
     }),
 
-    getModule: builder.query({
+    getModulesByCourse: builder.query({
+      query: (courseId) => ({
+        url: `/module/${courseId}`,
+        method: "GET",
+      }),
+      providesTags: ["module"],
+    }),
+    getModules: builder.query({
+      query: () => ({
+        url: "/module",
+        method: "GET",
+      }),
+      providesTags: ["module"],
+    }),
+    getSingleModule: builder.query({
       query: (id) => ({
         url: `/module/${id}`,
+        method: "GET",
       }),
       providesTags: ["module"],
     }),
@@ -22,7 +37,7 @@ export const moduleApi = apiSlice.injectEndpoints({
     editModule: builder.mutation({
       query: ({ id, data }) => ({
         url: `/module/edit-module/${id}`,
-        method: "PUT",
+        method: "PATCH",
         body: data,
       }),
       invalidatesTags: ["module"],
@@ -39,8 +54,10 @@ export const moduleApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetModuleQuery,
+  useGetModulesByCourseQuery,
   useDeleteModuleMutation,
   useEditModuleMutation,
   useCreateModuleMutation,
+  useGetModulesQuery,
+  useGetSingleModuleQuery
 } = moduleApi;

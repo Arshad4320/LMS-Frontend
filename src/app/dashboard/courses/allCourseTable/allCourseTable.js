@@ -8,9 +8,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-hot-toast";
+import { useParams } from "next/navigation";
 
 const AllCoursesTable = () => {
+  const { id } = useParams();
+  console.log("id", id);
   const { data, isLoading, error } = useGetCoursesQuery();
+
   const [deleteCourse, { isLoading: deleting }] = useDeleteCourseMutation();
 
   const handleDelete = async (id) => {

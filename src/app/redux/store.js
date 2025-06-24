@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "../redux/RootApi/apiSlice";
 
-// import wishlistSlice from "./features/cart/wishlistSlice";
+import courseSlice from "./features/course/courseSlice";
 
 export const store = configureStore({
   reducer: {
-    // wishlist: wishlistSlice,
+    course: courseSlice,
 
     [apiSlice.reducerPath]: apiSlice.reducer,
   },

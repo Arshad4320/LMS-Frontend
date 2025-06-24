@@ -1,17 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useGetModuleQuery } from "@/app/redux/features/module/moduleApi";
-import { useGetLectureQuery } from "@/app/redux/features/lecture/lectureApi";
+
 import { useParams } from "next/navigation";
 import Accordion from "../../accordion";
 import { getEmbedUrl } from "./getEmbedUrl";
+import { useGetModulesByCourseQuery } from "@/app/redux/features/module/moduleApi";
+import { useGetLectureQuery } from "@/app/redux/features/lecture/lectureApi";
 
 const ModuleList = () => {
   const params = useParams();
   const id = params?.id;
 
-  const { data: moduleData, isLoading, error } = useGetModuleQuery(id);
+  const { data: moduleData, isLoading, error } = useGetModulesByCourseQuery(id);
   const [selectedLecture, setSelectedLecture] = useState(null);
 
   const firstModuleId = moduleData?.data?.[0]?._id;
