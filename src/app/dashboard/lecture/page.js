@@ -19,7 +19,6 @@ const LectureListByModule = () => {
   if (error)
     return <p className="text-center text-red-500">Failed to load lectures!</p>;
 
-  // Group lectures by moduleId
   const groupedLectures = {};
   allLecturesData?.data?.forEach((lecture) => {
     const module = lecture.moduleId;

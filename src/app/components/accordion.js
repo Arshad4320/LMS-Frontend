@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useGetLectureQuery } from "@/app/redux/features/lecture/lectureApi";
+import { useGetLecturesQuery } from "@/app/redux/features/lecture/lectureApi";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPlayCircle } from "react-icons/fa"; // ▶️ Icon
@@ -11,7 +11,7 @@ const Accordion = ({ items, onLectureSelect }) => {
 
   const handleToggle = () => setIsOpen(!isOpen);
 
-  const { data: lectureData, isFetching } = useGetLectureQuery(items._id, {
+  const { data: lectureData, isFetching } = useGetLecturesQuery(items._id, {
     skip: !isOpen,
   });
 

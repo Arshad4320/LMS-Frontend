@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { useGetCoursesQuery } from "@/app/redux/features/course/courseApi";
-import { useGetModulesByCourseQuery } from "@/app/redux/features/module/moduleApi";
+
 import {
   useEditLectureMutation,
-  useGetSingleLectureQuery,
+  useGetLecturesQuery,
 } from "@/app/redux/features/lecture/lectureApi";
 
 const EditLecturePage = () => {
@@ -18,33 +17,26 @@ const EditLecturePage = () => {
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
   const { data: lectureData, isLoading: lectureLoading } =
-    useGetSingleLectureQuery(id);
+    useGetLecturesQuery(id);
+
   const [editLecture, { isLoading }] = useEditLectureMutation();
-
-  const { data: courseData } = useGetCoursesQuery();
-  const selectedCourseId = watch("courseId");
-
-  const { data: moduleData, isLoading: loadingModules } =
-    useGetModulesByCourseQuery(selectedCourseId, {
-      skip: !selectedCourseId,
-    });
 
   useEffect(() => {
     if (lectureData?.data) {
       const data = lectureData.data;
-      setValue("title", data.title);
-      setValue("videoUrl", data.videoUrl);
-      setValue("courseId", data.courseId);
-      setValue("moduleId", data.moduleId);
+      reset({
+        title: data.title,
+        videoUrl: data.videoUrl,
+        courseId: data.courseId,
+        moduleId: data.moduleId,
+      });
     }
-  }, [lectureData, setValue]);
+  }, [lectureData, reset]);
 
   const onSubmit = async (data) => {
     try {
@@ -61,7 +53,7 @@ const EditLecturePage = () => {
 
       if (res.success) {
         toast.success("✅ Lecture updated successfully!");
-        router.push(`/dashboard/lectures`); // change as needed
+        router.push(`/dashboard/lecture`);
       } else {
         toast.error(res.message || "Something went wrong!");
       }
@@ -72,61 +64,33 @@ const EditLecturePage = () => {
 
   if (lectureLoading) return <p className="text-center">Loading lecture...</p>;
 
+  const lecture = lectureData?.data;
+  console.log(lecture);
   return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded shadow mt-6">
+    <div className="mx-auto bg-white p-6 rounded shadow mt-6">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">
         ✏️ Edit Lecture
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Course Select */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Select Course
+            Module Name
           </label>
-          <select
-            {...register("courseId", { required: "Course is required" })}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">-- Select Course --</option>
-            {courseData?.data?.map((course) => (
-              <option key={course._id} value={course._id}>
-                {course.title}
-              </option>
-            ))}
-          </select>
-          {errors.courseId && (
-            <p className="text-sm text-red-500 mt-1">
-              {errors.courseId.message}
-            </p>
-          )}
+          <input
+            type="text"
+            value={lecture?.[0]?.moduleId?.title || "N/A"}
+            disabled
+            className="w-full px-3 py-2 border rounded bg-gray-100 text-gray-700"
+          />
+          <input
+            type="hidden"
+            {...register("moduleId")}
+            value={lecture?.moduleId}
+          />
         </div>
 
-        {/* Module Select */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Select Module
-          </label>
-          <select
-            {...register("moduleId", { required: "Module is required" })}
-            disabled={!selectedCourseId || loadingModules}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">-- Select Module --</option>
-            {moduleData?.data?.map((module) => (
-              <option key={module._id} value={module._id}>
-                {module.title}
-              </option>
-            ))}
-          </select>
-          {errors.moduleId && (
-            <p className="text-sm text-red-500 mt-1">
-              {errors.moduleId.message}
-            </p>
-          )}
-        </div>
-
-        {/* Title */}
+        {/* Lecture Title */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Lecture Title
@@ -134,8 +98,8 @@ const EditLecturePage = () => {
           <input
             type="text"
             {...register("title", { required: "Title is required" })}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter lecture title"
+            className="w-full px-3 py-2 border rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder={lecture[0]?.title}
           />
           {errors.title && (
             <p className="text-sm text-red-500 mt-1">{errors.title.message}</p>
@@ -150,8 +114,8 @@ const EditLecturePage = () => {
           <input
             type="url"
             {...register("videoUrl", { required: "Video URL is required" })}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="https://youtube.com/embed/..."
+            className="w-full px-3 py-2 border rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder={lecture[0]?.videoUrl}
           />
           {errors.videoUrl && (
             <p className="text-sm text-red-500 mt-1">
