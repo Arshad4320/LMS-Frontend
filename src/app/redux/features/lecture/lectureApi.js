@@ -4,17 +4,23 @@ import { apiSlice } from "../../RootApi/apiSlice";
 export const lectureApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createLecture: builder.mutation({
-      query: (data) => ({
+      query: (formData) => ({
         url: "/lecture/create-lecture",
         method: "POST",
-        body: data,
+        body: formData,
       }),
       invalidatesTags: ["lecture"],
     }),
 
-    getLecture: builder.query({
+    getLectures: builder.query({
       query: (id) => ({
         url: `/lecture/${id}`,
+      }),
+      providesTags: ["lecture"],
+    }),
+    getAllLectures: builder.query({
+      query: () => ({
+        url: "/lecture",
       }),
       providesTags: ["lecture"],
     }),
@@ -39,8 +45,9 @@ export const lectureApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetLectureQuery,
+  useGetLecturesQuery,
   useEditLectureMutation,
   useCreateLectureMutation,
   useDeleteLectureMutation,
+  useGetAllLecturesQuery
 } = lectureApi;

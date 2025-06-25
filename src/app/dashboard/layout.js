@@ -21,14 +21,14 @@ const navLinks = [
         href: "/dashboard/modules ",
         label: "Module List",
       },
-      { href: "/dashboard/add-module", label: "Add Module" },
+      { href: "/dashboard/modules/add-modules", label: "Add Module" },
     ],
   },
   {
     label: "Lectures",
     children: [
-      { href: "/dashboard/lectures", label: "Lecture List" },
-      { href: "/dashboard/lectures/add-lecture", label: "Add Lecture" },
+      { href: "/dashboard/lecture", label: "Lecture List" },
+      { href: "/dashboard/lecture/add-lecture", label: "Add Lecture" },
     ],
   },
 ];
