@@ -47,7 +47,7 @@ const DashboardLayout = ({ children }) => {
     <div className="flex min-h-screen bg-gray-100 relative">
       {/* Sidebar */}
       <aside
-        className={`bg-blue-900 text-white w-[280px] p-6 space-y-4 md:block fixed md:relative transition-all duration-300 h-full overflow-y-auto ${
+        className={`bg-blue-600 text-white w-[280px] h-screen p-6 space-y-4 md:block fixed md:relative transition-all duration-300  overflow-y-auto ${
           mobileOpen ? "left-0 z-50" : "-left-full"
         } md:left-0 md:z-0 top-0`}
       >
