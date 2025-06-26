@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // import Cookies from "js-cookie";
-const BASE_URL = "http://localhost:5000/api/v1";
+const BASE_URL = "https://lms-1-2uf6.onrender.com/api/v1/";
 const customBaseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   //   prepareHeaders(headers) {
