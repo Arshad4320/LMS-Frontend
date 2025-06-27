@@ -3,11 +3,43 @@
 import React from "react";
 import { useGetCoursesQuery } from "../../redux/features/course/courseApi";
 import Image from "next/image";
-import Link from "next/link";
 import { FaStar } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
+const getUserRole = () => {
+  const token = Cookies.get("token");
+  if (!token) return null;
+
+  try {
+    const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    const payload = JSON.parse(atob(base64));
+    return payload.role;
+  } catch {
+    return null;
+  }
+};
 
 const CourseComponent = () => {
   const { data, isLoading, error } = useGetCoursesQuery();
+  const router = useRouter();
+
+  const handleProtectedAccess = (courseId) => {
+    const token = Cookies.get("token");
+    if (!token) {
+      alert("Please login first!");
+      router.push("/components/login-form");
+      return;
+    }
+
+    const role = getUserRole();
+
+    if (role === "user" || role === "admin") {
+      router.push(`/components/course/${courseId}`);
+    } else {
+      alert("You are not authorized.");
+    }
+  };
 
   if (isLoading)
     return <p className="text-center text-gray-500">Loading courses...</p>;
@@ -22,18 +54,16 @@ const CourseComponent = () => {
             key={course._id}
             className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col"
           >
-            <Link href={`/components/course/${course._id}`}>
-              <div className="relative w-full h-48">
-                <Image
-                  src={course.thumbnail}
-                  alt={course.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  unoptimized
-                />
-              </div>
-            </Link>
+            <div className="relative w-full h-48">
+              <Image
+                src={course.thumbnail}
+                alt={course.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                unoptimized
+              />
+            </div>
 
             <div className="p-4 flex-1 flex flex-col justify-between">
               <div>
@@ -48,9 +78,7 @@ const CourseComponent = () => {
                   {[...Array(5)].map((_, i) => (
                     <FaStar
                       key={i}
-                      className={`${
-                        i < 4 ? "text-yellow-400" : "text-gray-300"
-                      }`}
+                      className={i < 4 ? "text-yellow-400" : "text-gray-300"}
                     />
                   ))}
                   <span className="ml-2 text-xs text-gray-500">
@@ -63,12 +91,12 @@ const CourseComponent = () => {
                 <span className="text-orange-600 font-bold text-lg">
                   ${course.price}
                 </span>
-                <Link
-                  href={`/components/course/${course._id}`}
+                <button
+                  onClick={() => handleProtectedAccess(course._id)}
                   className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-md transition"
                 >
                   Watch Video
-                </Link>
+                </button>
               </div>
             </div>
           </div>
