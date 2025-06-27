@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "./shared/Navbar/Navbar";
 import Footer from "./shared/Footer/footer";
 import ReduxProvider from "./redux/ReduxProvider";
-import { ToastContainer } from "react-hot-toast";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -27,7 +26,6 @@ export default function RootLayout({ children }) {
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
-         
         </ReduxProvider>
       </body>
     </html>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const initialState = {
   user: null,

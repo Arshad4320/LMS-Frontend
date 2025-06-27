@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 import { toast } from "react-hot-toast";
+
 const LoginForm = () => {
   const { register, handleSubmit } = useForm();
   const [loginUser, { isLoading }] = useLoginMutation();
@@ -53,7 +54,7 @@ const LoginForm = () => {
         toast.error("Account not found. Please register first.");
         router.push("/components/register-form");
       } else {
-        toast.error(message);
+        console.log(err);
       }
     }
   };
