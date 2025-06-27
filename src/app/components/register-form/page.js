@@ -15,9 +15,9 @@ const RegisterForm = () => {
       await registerUser(data).unwrap();
       toast.success("Registration successful!");
       reset();
-      router.push("/login");
+      router.push("/components/login-form");
     } catch (err) {
-      toast.error(err?.data?.message || "Registration failed");
+      console.log(err);
     }
   };
 
@@ -47,6 +47,7 @@ const RegisterForm = () => {
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
+
         <button
           type="submit"
           disabled={isLoading}

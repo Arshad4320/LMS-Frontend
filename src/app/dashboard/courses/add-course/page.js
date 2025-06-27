@@ -78,8 +78,8 @@ const AddCourseForm = () => {
             <p className="text-sm text-red-500 mt-1">{errors.title.message}</p>
           )}
         </div>
-  {/* Price */}
-  <div>
+        {/* Price */}
+        <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Price ($)
           </label>
@@ -117,7 +117,6 @@ const AddCourseForm = () => {
           )}
         </div>
 
-      
         {/* Thumbnail File Upload */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
